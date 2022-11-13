@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const saleModel = require('../models/sale');
+const saleModel = require('../models/sale.model');
 const auth = require('../utils/auth');
 const saleService = require('../services/sale.service');
 
@@ -31,7 +31,7 @@ exports.deleteSale = async (req, res) => {
 	}
 };
 
-rexports.getSales = async (req, res) => {
+exports.getSales = async (req, res) => {
 	try {
 		sales = await saleModel.find({});
 		res.json(sales);
@@ -39,5 +39,3 @@ rexports.getSales = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

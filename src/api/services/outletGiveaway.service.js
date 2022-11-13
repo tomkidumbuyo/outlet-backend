@@ -1,6 +1,6 @@
-const outletModel = require('../models/outlet');
+const outletModel = require('../models/outlet.model');
 const visitLibrary = require('../utils/visit');
-const outletGiveawayModel = require('../models/outletGiveaway');
+const outletGiveawayModel = require('../models/outlet-giveaway.model');
 const mongoose = require('mongoose');
 
 module.exports.create = async function create(data, user) {

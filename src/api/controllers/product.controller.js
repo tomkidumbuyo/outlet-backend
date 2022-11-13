@@ -115,5 +115,3 @@ exports.getAllProducts = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

@@ -4,14 +4,14 @@ const authenticated = require('../../middleware/authenticated');
 
 const router = express.Router();
 
-router.get('/').post(controller.getAllGiveaways);
+router.route('/').get(controller.getAllGiveaways);
 
-router.get('/:id').post(controller.getGiveawayById);
+router.route('/:id').get(controller.getGiveawayById);
 
-router.post('/create').post(authenticated, controller.createGiveaway);
+router.route('/create').post(authenticated, controller.createGiveaway);
 
-router.delete('/:id').post(authenticated, controller.deleteGiveaway);
+router.route('/:id').delete(authenticated, controller.deleteGiveaway);
 
-router.put('/:id').post(authenticated, controller.updateGiveaway);
+router.route('/:id').put(authenticated, controller.updateGiveaway);
 
 module.exports = router;

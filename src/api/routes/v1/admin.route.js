@@ -6,7 +6,7 @@ const authenticated = require('../../middleware/authenticated');
 
 const router = express.Router();
 
-router.route('/users').get(authenticated, controller.getUsers);
+router.route('/users').get(authenticated, controller.getAllUsers);
 
 router.route('/lidMovement').get(authenticated, controller.getLidMovement);
 

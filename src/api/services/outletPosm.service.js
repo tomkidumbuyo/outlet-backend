@@ -1,6 +1,6 @@
-const outletModel = require('../models/outlet');
+const outletModel = require('../models/outlet.model');
 const visitLibrary = require('../utils/visit');
-const outletPosmModel = require('../models/outletPosm');
+const outletPosmModel = require('../models/outlet-posm.model');
 const mongoose = require('mongoose');
 
 module.exports.create = async function create(data, user) {

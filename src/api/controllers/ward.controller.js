@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const wardModel = require('../models/ward');
+const wardModel = require('../models/ward.model');
 const auth = require('../utils/auth');
 
 exports.createWard = async (req, res) => {
@@ -47,5 +47,3 @@ exports.deleteWard = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

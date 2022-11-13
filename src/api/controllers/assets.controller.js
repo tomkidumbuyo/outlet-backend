@@ -34,7 +34,7 @@ exports.getGeoLocation = (req, res, next) => {
 };
 
 exports.getAdminExists = (req, res, next) => {
-	userModel
+	const admin = userModel
 		.find({
 			type: 'admin',
 		})
@@ -45,11 +45,10 @@ exports.getAdminExists = (req, res, next) => {
 			}
 			res.json({ status: true });
 		});
+	res.json(admin);
 };
 
-exports.getWardByLocation = async (req, res, next) => {
+exports.getWardsByLocations = async (req, res, next) => {
 	const obj = await geojson.getWards(req.body.lat, req.body.lng);
 	res.json(obj);
 };
-
-module.exports = router;

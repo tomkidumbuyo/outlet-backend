@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const randomColor = require('randomcolor');
 const classificationModel = require('../models/classification.model');
-const classificationAttributeModel = require('../models/classificationAttribute.model');
+const classificationAttributeModel = require('../models/classification-attribute.model');
 const categoryModel = require('../models/category.model');
-const firebase = require('../sync/firebase');
 
 exports.getNestedClassifications = async (req, res, next) => {
 	try {
@@ -104,7 +103,6 @@ exports.createCategory = async (req, res, next) => {
 			classification: req.body.classification,
 			for: req.body.for,
 		});
-		firebase.upstream(firebase.table.CATEGORY, firebase.action.SYNC, category.toObject());
 		res.json(category);
 	} catch (e) {
 		next(e);
@@ -120,7 +118,6 @@ exports.createClassification = async (req, res, next) => {
 			for: req.body.for,
 			color: randomColor(),
 		});
-		firebase.upstream(firebase.table.CLASSIFICATION, firebase.action.SYNC, classification.toObject());
 		res.json(classification);
 	} catch (e) {
 		next(e);
@@ -197,7 +194,6 @@ exports.updateClassificationById = async (req, res, next) => {
 
 		await classification.save();
 		await classification.populate('attributes');
-		firebase.upstream(firebase.table.CLASSIFICATION, firebase.action.UPDATE, classification.toObject());
 		res.json(classification);
 	} catch (e) {
 		next(e);
@@ -208,7 +204,6 @@ exports.deleteClassificationById = async (req, res, next) => {
 	try {
 		classification = await classificationModel.findById(req.params.id);
 		classification.delete();
-		firebase.upstream(firebase.table.CLASSIFICATION, firebase.action.DELETE, classification.toObject());
 		res.json({ status: 'success' });
 	} catch (e) {
 		next(e);
@@ -219,7 +214,6 @@ exports.deleteCategoryById = async (req, res, next) => {
 	try {
 		category = await categoryModel.findById(req.params.id);
 		category.delete();
-		firebase.upstream(firebase.table.CATEGORY, firebase.action.DELETE, category.toObject());
 		res.json({ status: 'success' });
 	} catch (e) {
 		next(e);
@@ -232,14 +226,13 @@ exports.addAttribute = async (req, res, next) => {
 		classificationAttribute = await classificationAttributeModel.create({});
 		classification.attributes.push(classificationAttribute);
 		classification.save();
-		firebase.upstream(firebase.table.CLASSIFICATION, firebase.action.UPDATE, classification.toObject());
 		res.json(classification);
 	} catch (e) {
 		next(e);
 	}
 };
 
-exports.getAttribute = async (req, res, next) => {
+exports.getAttributes = async (req, res, next) => {
 	try {
 		classificationAttributes = await classificationAttributeModel.find({});
 		res.json(classificationAttributes);
@@ -247,5 +240,3 @@ exports.getAttribute = async (req, res, next) => {
 		next(e);
 	}
 };
-
-module.exports = router;

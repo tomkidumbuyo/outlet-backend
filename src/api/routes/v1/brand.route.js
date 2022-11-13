@@ -12,6 +12,6 @@ router.route('/').get(authenticated, controller.getAllBrands);
 
 router.route('/products/:brandId').get(authenticated, controller.getBrandProducts);
 
-router.route('/:brandId').get(authenticated, controller.updateUserPassword);
+router.route('/:brandId').get(authenticated, controller.getBrandById);
 
 module.exports = router;

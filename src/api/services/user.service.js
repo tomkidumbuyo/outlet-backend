@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const userLocationModel = require('../models/userLocation');
+const userLocationModel = require('../models/user-location.model');
 const geojson = require('../utils/geojson');
 
 module.exports.ping = async function ping(data, user) {

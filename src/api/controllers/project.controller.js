@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const projectModel = require('../models/project.model');
 const productModel = require('../models/product.model');
 const saleModel = require('../models/sale.model');
-const outletPosmModel = require('../models/outletPosm.model');
-const outletGiveawayModel = require('../models/outletGiveaway.model');
-const outletSkuModel = require('../models/outletSku.model');
-const outletProductModel = require('../models/outletProduct.model');
+const outletPosmModel = require('../models/outlet-posm.model');
+const outletGiveawayModel = require('../models/outlet-giveaway.model');
+const outletSkuModel = require('../models/outlet-sku.model');
+const outletProductModel = require('../models/outlet-product.model');
 const districtModel = require('../models/district.model');
 const wardModel = require('../models/ward.model');
 const outletModel = require('../models/outlet.model');
@@ -291,5 +291,3 @@ exports.getAllProjects = async (req, res) => {
 		res.status(500).json({ error: 'Error creating new project.' });
 	}
 };
-
-module.exports = router;

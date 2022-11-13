@@ -4,11 +4,10 @@ const authenticated = require('../../middleware/authenticated');
 
 const router = express.Router();
 
-router.route('/create').post(authenticated, controller.createOutletSKU);
+router.route('/create').post(authenticated, controller.createOutletSku);
 
-router.route('/:id').put(authenticated, controller.updateOutletSKU);
+router.route('/:id').put(authenticated, controller.updateOutletSku);
 
-router.route('/:id').delete(authenticated, controller.deleteOutletSKU);
+router.route('/:id').delete(authenticated, controller.deleteOutletSku);
 
 module.exports = router;
-

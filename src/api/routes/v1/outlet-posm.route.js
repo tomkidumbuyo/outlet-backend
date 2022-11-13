@@ -4,11 +4,10 @@ const authenticated = require('../../middleware/authenticated');
 
 const router = express.Router();
 
-router.route('/create').post(authenticated, controller.createOutletGiveaway);
+router.route('/create').post(authenticated, controller.createOutletPosm);
 
-router.route('/:id').put(authenticated, controller.updateOutletGiveaway);
+router.route('/:id').put(authenticated, controller.updateOutletPosm);
 
-router.route('/:id').delete(authenticated, controller.deleteOutletGiveaway);
+router.route('/:id').delete(authenticated, controller.deleteOutletPosm);
 
 module.exports = router;
-

@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const outletModel = require('../models/outlet');
-const saleModel = require('../models/sale');
-const districtModel = require('../models/district');
-const outletClassificationModel = require('../models/outletClassification');
-const outletAttributeModel = require('../models/outletAttribute');
-const visitModel = require('../models/visit');
-const outletPosmModel = require('../models/outletPosm');
-const outletGiveawayModel = require('../models/outletGiveaway');
-const outletSkuModel = require('../models/outletSku');
+const outletModel = require('../models/outlet.model');
+const saleModel = require('../models/sale.model');
+const districtModel = require('../models/district.model');
+const outletClassificationModel = require('../models/outlet-classification.model');
+const outletAttributeModel = require('../models/outlet-attribute.model');
+const visitModel = require('../models/visit.model');
+const outletPosmModel = require('../models/outlet-posm.model');
+const outletGiveawayModel = require('../models/outlet-giveaway.model');
+const outletSkuModel = require('../models/outlet-sku.model');
 
 const auth = require('../utils/auth');
 const geojson = require('../utils/geojson');
@@ -69,7 +69,6 @@ exports.paggination = async (req, res) => {
 			.populate('district')
 			.populate('ward')
 			.populate('classifications');
-
 
 		for (const outlet of outlets) {
 			if (outlet.classifications.length > 1) {
@@ -213,5 +212,3 @@ removeDuplicates = function(array) {
 	}
 	return uniqueNames;
 };
-
-module.exports = router;

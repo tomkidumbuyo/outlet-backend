@@ -1,9 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const regionModel = require('../../models/region.model');
-const distributionCenterModel = require('../../models/distribution-center.model');
-const userModel = require('../../models/user.model');
-const outletsModel = require('../../models/outlet.model');
 const districtModel = require('../../models/district.model');
 const auth = require('../../utils/auth');
 

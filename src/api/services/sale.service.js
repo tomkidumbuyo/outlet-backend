@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const saleModel = require('../models/sale');
-const outletModel = require('../models/outlet');
-const saleItemModel = require('../models/saleItem');
+const saleModel = require('../models/sale.model');
+const outletModel = require('../models/outlet.model');
+const saleItemModel = require('../models/sale-item.model');
 const visitLibrary = require('../utils/visit');
-const skuModel = require('../models/sku');
+const skuModel = require('../models/sku.model');
 
 module.exports.create = async function create(data, user) {
 	return new Promise(async (resolve, reject) => {

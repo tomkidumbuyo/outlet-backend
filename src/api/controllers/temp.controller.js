@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const tempModel = require('../models/temp');
-const outletModel = require('../models/outlet');
-const visitModel = require('../models/visit');
-const userLocationModel = require('../models/userLocation');
+const tempModel = require('../models/temp.model');
+const outletModel = require('../models/outlet.model');
+const visitModel = require('../models/visit.model');
+const userLocationModel = require('../models/user-location.model');
 const auth = require('../utils/auth');
 const geojson = require('../utils/geojson');
-const productModel = require('../models/product');
-const outletPosmModel = require('../models/outletPosm');
-const outletSkuModel = require('../models/outletSku');
-const outletGiveawayModel = require('../models/outletGiveaway');
-const saleModel = require('../models/sale');
+const productModel = require('../models/product.model');
+const outletPosmModel = require('../models/outlet-posm.model');
+const outletSkuModel = require('../models/outlet-sku.model');
+const outletGiveawayModel = require('../models/outlet-giveaway.model');
+const saleModel = require('../models/sale.model');
 
-exports.getTemp = async (req, res) => {
+exports.getTempVisits = async (req, res) => {
 	try {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel
@@ -129,7 +129,7 @@ exports.getTempGiveaway = async (req, res) => {
 	}
 };
 
-exports.getTempPosm = async (req, res) => {
+exports.getTempPosms = async (req, res) => {
 	try {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
@@ -167,5 +167,3 @@ exports.getTempById = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

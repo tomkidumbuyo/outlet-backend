@@ -4,19 +4,19 @@ const router = express.Router();
 const auth = require('../utils/auth');
 const visit = require('../utils/visit');
 const geojson = require('../utils/geojson');
-const projectModel = require('../models/project');
-const productModel = require('../models/product');
-const saleModel = require('../models/sale');
-const saleItemModel = require('../models/saleItem');
-const userModel = require('../models/user');
-const outletPosmModel = require('../models/outletPosm');
-const outletGiveawayModel = require('../models/outletGiveaway');
-const outletProductModel = require('../models/outletProduct');
-const outletSkuModel = require('../models/outletSku');
-const outletModel = require('../models/outlet');
-const visitModel = require('../models/visit');
-const classificationModel = require('../models/classification');
-const categoryModel = require('../models/category');
+const projectModel = require('../models/project.model');
+const productModel = require('../models/product.model');
+const saleModel = require('../models/sale.model');
+const saleItemModel = require('../models/sale-item.model');
+const userModel = require('../models/user.model');
+const outletPosmModel = require('../models/outlet-posm.model');
+const outletGiveawayModel = require('../models/outlet-giveaway.model');
+const outletProductModel = require('../models/outlet-product.model');
+const outletSkuModel = require('../models/outlet-sku.model');
+const outletModel = require('../models/outlet.model');
+const visitModel = require('../models/visit.model');
+const classificationModel = require('../models/classification.model');
+const categoryModel = require('../models/category.model');
 const userService = require('../services/user.service');
 const fs = require('fs');
 
@@ -27,8 +27,6 @@ exports.getLoggedInUser = (req, res) => {
 
 exports.getUserOutlets = async (req, res) => {
 	try {
-
-
 		var startDate = new Date();
 
 		results = [];
@@ -85,9 +83,9 @@ exports.getUserOutlets = async (req, res) => {
 
 		res.json(results);
 	} catch (e) {
-		next(e)
+		next(e);
 	}
-});
+};
 
 const isToday = (someDate) => {
 	const today = new Date();
@@ -174,7 +172,6 @@ exports.getUserGiveaways = async (req, res) => {
 };
 
 exports.getUserOutletSkus = async (req, res) => {
-
 	if (req.user.project) {
 		visits = await visit.userTodayVisits(req.user);
 		outletSkus = await outletSkuModel.find({ visit: { $in: visits.map((visit) => visit._id) } });
@@ -186,8 +183,7 @@ exports.getUserOutletSkus = async (req, res) => {
 	}
 };
 
-exports.getUserOutletposms = async (req, res) => {
-
+exports.getUserOutletPosms = async (req, res) => {
 	if (req.user.project) {
 		visits = await visit.userTodayVisits(req.user);
 		outletPosms = await outletPosmModel.find({ visit: { $in: visits.map((visit) => visit._id) } });
@@ -200,7 +196,6 @@ exports.getUserOutletposms = async (req, res) => {
 };
 
 exports.getUserOutletGiveaways = async (req, res) => {
-
 	if (req.user.project) {
 		visits = await visit.userTodayVisits(req.user);
 		outletGiveaways = await outletGiveawayModel.find({ visit: { $in: visits.map((visit) => visit._id) } });
@@ -213,7 +208,6 @@ exports.getUserOutletGiveaways = async (req, res) => {
 };
 
 exports.getUserOutletProducts = async (req, res) => {
-	
 	if (req.user.project) {
 		visits = await visit.userTodayVisits(req.user);
 		outletProducts = await outletProductModel.find({ visit: { $in: visits.map((visit) => visit._id) } });
@@ -251,7 +245,7 @@ exports.getClassificationLastChildren = async (req, res) => {
 		let t4 = new Date().getTime();
 		res.json(classifications);
 	} catch (e) {
-		next(e)
+		next(e);
 	}
 };
 
@@ -316,5 +310,3 @@ exports.pingUser = async (req, res) => {
 		res.status(500).json({ error: error });
 	}
 };
-
-module.exports = router;

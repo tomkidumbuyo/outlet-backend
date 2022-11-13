@@ -30,6 +30,6 @@ router.route('/category/:id').delete(controller.deleteCategoryById);
 
 router.route('/attributes/add/:classificationId').post(authenticated, controller.addAttribute);
 
-router.route('/attributes').get(authenticated, controller.createBrand);
+router.route('/attributes').get(authenticated, controller.getAttributes);
 
 module.exports = router;

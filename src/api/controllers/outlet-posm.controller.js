@@ -26,5 +26,3 @@ exports.deleteOutletPosm = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

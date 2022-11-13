@@ -16,6 +16,6 @@ router.route('/geo').get(controller.getGeoLocation);
 router.route('/adminExists').get(controller.getAdminExists);
 
 // TODO: change name to get ward by location
-router.router('/ward').post(controller.getUsers);
+router.route('/ward').post(controller.getWardsByLocations);
 
 module.exports = router;

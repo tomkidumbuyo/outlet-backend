@@ -41,7 +41,7 @@ exports.addPhoneNumberToClient = async (req, res, next) => {
 	}
 };
 
-exports.addPhoneNumberToClient = async (req, res, next) => {
+exports.removePhoneNumberToClient = async (req, res, next) => {
 	try {
 		const client = await clientModel.findById(req.params.clientId).populate('phones');
 		client.save();

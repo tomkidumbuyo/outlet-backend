@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const regionModel = require('../models/region');
+const regionModel = require('../models/region.model');
 const auth = require('../utils/auth');
 
 exports.creteRegion = async (req, res) => {
@@ -47,5 +47,3 @@ exports.deleteRegion = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

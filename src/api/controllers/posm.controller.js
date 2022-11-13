@@ -52,5 +52,3 @@ exports.getPosms = async (req, res) => {
 		next(e);
 	}
 };
-
-module.exports = router;

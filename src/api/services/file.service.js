@@ -1,4 +1,4 @@
-const outletModel = require('../models/outlet');
+const outletModel = require('../models/outlet.model');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const visitLibrary = require('../utils/visit');
