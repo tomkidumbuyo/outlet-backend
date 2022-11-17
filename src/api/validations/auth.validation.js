@@ -15,7 +15,7 @@ module.exports = {
 				date_of_birth: Joi.date().optional(),
 				ethnicity: Joi.string().optional(),
 				sex: Joi.string().optional(),
-				adress: Joi.string().optional(),
+				address: Joi.string().optional(),
 			},
 		}),
 	},
@@ -40,7 +40,7 @@ module.exports = {
 			date_of_birth: Joi.date().optional(),
 			ethnicity: Joi.string().optional(),
 			sex: Joi.string().optional(),
-			adress: Joi.string().optional(),
+			address: Joi.string().optional(),
 		}),
 	},
 	updateUserPassword: {

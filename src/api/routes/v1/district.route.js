@@ -1,55 +1,15 @@
 const express = require('express');
+const controller = require('../../controllers/district.controller');
+const authenticated = require('../../middleware/authenticated');
+
 const router = express.Router();
-const districtModel = require('../../models/district.model');
-const auth = require('../../utils/auth');
 
-router.use('/create', auth.verify);
-router.post('/create', async (req, res) => {
-	try {
-		district = await districtModel.create({
-			name: req.body.name,
-			region: req.body.region,
-		});
-		res.json(district);
-	} catch (error) {
-		res.status(500).json({ error: error });
-	}
-});
+router.route('/create').post(authenticated, controller.createDistrict);
 
-router.use('/', auth.verify);
-router.get('/', async (req, res) => {
-	districtModel.find({}, async (err, districts) => {
-		if (err) {
-			res.status(500).json({ error: err });
-			return;
-		}
-		res.json(districts);
-	});
-});
+router.route('/').get(authenticated, controller.getAllDistricts);
 
-router.use('/:id', auth.verify);
-router.get('/:id', async (req, res) => {
-	try {
-		district = await districtModel.findById(req.params.id);
-		if (district) {
-			res.json(district);
-		} else {
-			res.status(500).json({ error: 'No district with that id' });
-		}
-	} catch (e) {
-		next(e);
-	}
-});
+router.route('/:id').get(authenticated, controller.getDistrictById);
 
-router.use('/:id', auth.verify);
-router.delete('/:id', async (req, res) => {
-	try {
-		district = await districtModel.findById(req.params.id);
-		district.delete();
-		res.json({ status: success });
-	} catch (e) {
-		next(e);
-	}
-});
+router.route('/:id').delete(authenticated, controller.deleteDistrict);
 
 module.exports = router;

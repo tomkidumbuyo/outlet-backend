@@ -12,7 +12,7 @@ exports.createClient = async (req, res, next) => {
 			classification: req.body.classification,
 			phones,
 			website: req.body.website,
-			adress: req.body.adress,
+			address: req.body.address,
 			email: req.body.email,
 		});
 		res.json(client);
@@ -77,7 +77,7 @@ exports.updateClient = async (req, res, next) => {
 		client.classification = req.body.classification;
 		client.phones = phones;
 		client.website = req.body.website;
-		client.adress = req.body.adress;
+		client.address = req.body.address;
 		client.email = req.body.email;
 		client.save();
 		res.json(client);
