@@ -11,7 +11,7 @@ router.route('/register').post(validator.body(validation.register.body), control
 
 router.route('/login').post(validator.body(validation.login.body), controller.login);
 
-router.route('/isLoggedIn').post(validator.body(validation.isLoggedIn.body), controller.isLoggedIn);
+router.route('/isLoggedIn').post(authenticated, validator.body(validation.isLoggedIn.body), controller.isLoggedIn);
 
 router
 	.route('/user/:userId')

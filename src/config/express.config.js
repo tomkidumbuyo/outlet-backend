@@ -6,6 +6,7 @@ const tmp = require('tmp');
 
 const { logs } = require('../constants');
 
+const bodyParser = require('body-parser');
 const session = require('./session.config');
 const cors = require('./cors.config');
 const clientLogs = require('./client-log.config');
@@ -18,6 +19,21 @@ const error = require('../api/middleware/error');
  * @public
  */
 const app = express();
+
+// mongoDB connection instance
+const mongoose = require('mongoose');
+const connectionString = process.env.MONGODB_URI_URI;
+
+mongoose.connect(connectionString);
+const database = mongoose.connection;
+
+database.on('error', (error) => {
+	console.log(error);
+});
+
+database.once('connected', () => {
+	console.log('Database Connected');
+});
 
 // TODO: Include CSRF middlewares here
 
@@ -35,8 +51,8 @@ app.use((req, _, next) => {
 app.use(cors());
 
 // parse body params and attache them to req.body
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // gzip compression
 app.use(compress());

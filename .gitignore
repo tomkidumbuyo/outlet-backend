@@ -30,3 +30,8 @@ pkg
 .tar.gz
 .gz
 .tgz
+
+# Jest generated files
+jest_html_reporters.html
+jest-html-reporters-attach/*
+jest-stare/*

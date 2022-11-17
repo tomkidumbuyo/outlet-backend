@@ -1,31 +1,31 @@
 const auth = require('../utils/auth');
 const userModel = require('../models/user.model');
 const accessTokenModel = require('../models/access-token.model');
+const responses = require('../services/response.service');
 
 exports.register = async (req, res, next) => {
 	const { email, verifyPassword, password } = req.body;
-
-	auth.register(email, password, verifyPassword, req)
-		.then(async (data) => {
-			if (req.body.userAttributes) {
-				try {
-					await userModel.updateOne({ _id: data.user._id }, { $set: req.body.userAttributes });
-					data.user = await userModel.findById(data.user._id);
-					res.json(data);
-				} catch (err) {
-					res.status(500).json(err);
-				}
-			} else {
+	try {
+		const data = await auth.register(email, password, verifyPassword);
+		console.log(data);
+		if (req.body.userAttributes) {
+			try {
+				await userModel.updateOne({ _id: data.user._id }, { $set: req.body.userAttributes });
+				data.user = await userModel.findById(data.user._id);
 				res.json(data);
+			} catch (error) {
+				next(error);
 			}
-		})
-		.catch((e) => {
-			next(e);
-		});
+		} else {
+			res.json(data);
+		}
+	} catch (error) {
+		next(error);
+	}
 };
 
 exports.login = async (req, res, next) => {
-	const { email, password } = req.body.password;
+	const { email, password } = req.body;
 	auth.login(email, password, req)
 		.then((data) => {
 			res.json(data);
@@ -68,7 +68,7 @@ exports.updateUserPassword = async (req, res, next) => {
 			const user = await userModel.findById(req.params.id);
 			user.password = req.body.password;
 			await accessTokenModel.deleteMany({
-				user_id: req.params.id,
+				userId: req.params.id,
 			});
 			await user.save();
 			res.json(user);
