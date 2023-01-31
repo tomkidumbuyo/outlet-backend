@@ -10,15 +10,15 @@ exports.creteRegion = async (req, res) => {
 			region: req.body.region,
 		});
 		res.json(region);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
 exports.getAllRegions = async (req, res) => {
-	regionModel.find({}, async (err, regions) => {
-		if (e) {
-			next(e);
+	regionModel.find({}, async (error, regions) => {
+		if (error) {
+			next(error);
 			return;
 		}
 		res.json(regions);
@@ -33,8 +33,8 @@ exports.getRegionById = async (req, res) => {
 		} else {
 			res.status(500).json({ error: 'No region with that id' });
 		}
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -43,7 +43,7 @@ exports.deleteRegion = async (req, res) => {
 		region = await regionModel.findById(req.params.id);
 		region.delete();
 		res.json({ status: success });
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };

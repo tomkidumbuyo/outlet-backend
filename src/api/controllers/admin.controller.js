@@ -92,8 +92,8 @@ exports.getSalesByDistributionCenters = async (req, res, next) => {
 exports.verifyDispatch = async (req, res, next) => {
 	const lidMovement = await lidMovementModel.findById(req.params.id);
 	lidMovement.verified = true;
-	lidMovement.verified_by = req.user.id;
-	lidMovement.verified_time = new Date();
+	lidMovement.verifiedBy = req.user.id;
+	lidMovement.verifiedTime = new Date();
 	await lidMovement.save();
 	res.json(lidMovement);
 };
@@ -101,8 +101,8 @@ exports.verifyDispatch = async (req, res, next) => {
 exports.cancelDispatch = async (req, res, next) => {
 	const lidMovement = await lidMovementModel.findById(req.params.id);
 	lidMovement.cancel = true;
-	lidMovement.cancel_by = req.user.id;
-	lidMovement.cancel_time = new Date();
+	lidMovement.cancelBy = req.user.id;
+	lidMovement.cancelTime = new Date();
 	await lidMovement.save();
 	res.json(lidMovement);
 };
@@ -110,8 +110,8 @@ exports.cancelDispatch = async (req, res, next) => {
 exports.returnDispatch = async (req, res, next) => {
 	const lidMovement = await lidMovementModel.findById(req.params.id);
 	lidMovement.verified = false;
-	lidMovement.verified_by = null;
-	lidMovement.verified_time = null;
+	lidMovement.verifiedBy = null;
+	lidMovement.verifiedTime = null;
 	await lidMovement.save();
 	res.json(lidMovement);
 };

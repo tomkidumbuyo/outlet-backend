@@ -7,10 +7,9 @@ exports.register = async (req, res, next) => {
 	const { email, verifyPassword, password } = req.body;
 	try {
 		const data = await auth.register(email, password, verifyPassword);
-		console.log(data);
 		if (req.body.userAttributes) {
 			try {
-				await userModel.updateOne({ _id: data.user._id }, { $set: req.body.userAttributes });
+				await userModel.findOneAndUpdate({ _id: data.user._id }, { $set: req.body.userAttributes });
 				data.user = await userModel.findById(data.user._id);
 				res.json(data);
 			} catch (error) {
@@ -36,24 +35,21 @@ exports.login = async (req, res, next) => {
 };
 
 exports.isLoggedIn = async (req, res, next) => {
-	auth.verify_token(req.body.accessToken)
-		.then((data) => {
-			res.json(data);
-		})
-		.catch((e) => {
-			next(e);
-		});
+	try {
+		const accessToken = req.headers.authorization.split(' ')[1];
+		auth.verify_token(accessToken)
+			.then((data) => {
+				res.json(data);
+			})
+			.catch((error) => {
+				next(error);
+			});
+	} catch (error) {
+		next(error);
+	}
 };
 
 exports.getUserById = async (req, res, next) => {
-	const userAttributes = req.body;
-	if (userAttributes.password) {
-		delete userAttributes.password;
-	}
-	if (userAttributes._id) {
-		delete userAttributes._id;
-	}
-	await userModel.updateOne({ _id: req.params.userId }, { $set: userAttributes });
 	const user = await userModel
 		.findById(req.params.userId)
 		.populate('region')

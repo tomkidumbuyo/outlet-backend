@@ -48,7 +48,13 @@ app.use((req, _, next) => {
 });
 
 // CORS configuration
-app.use(cors());
+var allowlist = [process.env.FRONTEND_URL];
+app.use(
+	cors({
+		origin: allowlist,
+	})
+);
+console.log(allowlist);
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());

@@ -1,13 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
 const tempModel = require('../models/temp.model');
 const outletModel = require('../models/outlet.model');
 const visitModel = require('../models/visit.model');
 const userLocationModel = require('../models/user-location.model');
-const auth = require('../utils/auth');
 const geojson = require('../utils/geojson');
-const productModel = require('../models/product.model');
 const outletPosmModel = require('../models/outlet-posm.model');
 const outletSkuModel = require('../models/outlet-sku.model');
 const outletGiveawayModel = require('../models/outlet-giveaway.model');
@@ -65,8 +62,8 @@ exports.getTempLocations = async (req, res) => {
 
 		let results = [];
 		for (let userLocation of userLocations) {
-			if (!userLocation.to_time) {
-				userLocation.to_time = userLocation.time;
+			if (!userLocation.toTime) {
+				userLocation.toTime = userLocation.time;
 				await userLocation.save();
 			}
 
@@ -75,9 +72,9 @@ exports.getTempLocations = async (req, res) => {
 				userLocation.lat == results[results.length - 1].lat &&
 				userLocation.lng == results[results.length - 1].lng
 			) {
-				results[results.length - 1].to_time = userLocation.to_time;
+				results[results.length - 1].toTime = userLocation.toTime;
 				if (
-					new Date(userLocation.time).getTime() - new Date(userLocation.to_time).getTime() <
+					new Date(userLocation.time).getTime() - new Date(userLocation.toTime).getTime() <
 					60 * 60 * 24 * 1000
 				) {
 					await results[results.length - 1].save();
