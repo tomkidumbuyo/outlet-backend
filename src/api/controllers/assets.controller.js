@@ -33,19 +33,15 @@ exports.getGeoLocation = (req, res, next) => {
 	res.json(loc);
 };
 
-exports.getAdminExists = (req, res, next) => {
-	const admin = userModel
-		.find({
+exports.getAdminExists = async (req, res, next) => {
+	try {
+		const admin = await userModel.find({
 			type: 'admin',
-		})
-		.exec((err, data) => {
-			if (err || !data.length) {
-				res.json({ status: false });
-				return;
-			}
-			res.json({ status: true });
 		});
-	res.json(admin);
+		res.json(admin);
+	} catch (error) {
+		res.json({ status: false });
+	}
 };
 
 exports.getWardsByLocations = async (req, res, next) => {

@@ -252,16 +252,14 @@ exports.getClassificationLastChildren = async (req, res) => {
 // TODO: find if this functio is being used
 exports.getUserById = (req, res) => {
 	userModel
-		.findOne({ created_by: req.user })
+		.findOne({ createdBy: req.user })
 		.then((data) => {})
 		.catch((err) => {});
 };
 
 exports.updateUser = async (req, res) => {
-	id = req.body._id;
-	delete req.body._id;
-	await userModel.updateOne({ _id: id }, req.body);
-	const user = await userModel.findOne(req.body._id);
+	await userModel.findOneAndUpdate({ _id: req.params.userId }, req.body);
+	const user = await userModel.findById(req.params.userId);
 	res.json(user);
 };
 

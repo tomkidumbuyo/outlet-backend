@@ -28,7 +28,6 @@ const uploadFile = (fileName) => {
 				return;
 			}
 			resolve(data);
-			console.log(`File uploaded successfully. ${data.Location}`);
 		});
 	});
 };

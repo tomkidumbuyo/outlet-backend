@@ -14,14 +14,14 @@ module.exports.ping = async function ping(data, user) {
 					lat: data.lat,
 					lng: data.lng,
 					user: user._id,
-					to_time: {
+					toTime: {
 						$lte: hourslater,
 						$gte: hoursago,
 					},
 				});
 
 				if (userLocation) {
-					userLocation.to_time = thetime;
+					userLocation.toTime = thetime;
 					await userLocation.save();
 					resolve(userLocation);
 				} else {
@@ -34,7 +34,7 @@ module.exports.ping = async function ping(data, user) {
 						district: loc.district,
 						region: loc.region,
 						time: thetime,
-						to_time: thetime,
+						toTime: thetime,
 					});
 					resolve(userLocation);
 				}

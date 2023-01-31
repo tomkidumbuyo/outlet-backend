@@ -1,17 +1,20 @@
 const express = require('express');
 const validator = require('express-joi-validation').createValidator({});
 
-const controller = require('../../controllers/auth.controller');
+const authController = require('../../controllers/auth.controller');
+const userController = require('../../controllers/user.controller');
 const validation = require('../../validations/auth.validation');
 const authenticated = require('../../middleware/authenticated');
 
 const router = express.Router();
 
-router.route('/register').post(validator.body(validation.register.body), controller.register);
+router.route('/register').post(validator.body(validation.register.body), authController.register);
 
-router.route('/login').post(validator.body(validation.login.body), controller.login);
+router.route('/login').post(validator.body(validation.login.body), authController.login);
 
-router.route('/isLoggedIn').post(authenticated, validator.body(validation.isLoggedIn.body), controller.isLoggedIn);
+router.route('/isLoggedIn').get(authenticated, authController.isLoggedIn);
+
+router.route('/user/:userId').get(authenticated, authController.getUserById);
 
 router
 	.route('/user/:userId')
@@ -19,11 +22,11 @@ router
 		authenticated,
 		validator.params(validation.updateUser.param),
 		validator.body(validation.updateUser.body),
-		controller.getUserById
+		userController.updateUser
 	);
 
 router
 	.route('/updateUserPassword/:userId')
-	.put(authenticated, validator.body(validation.updateUserPassword.body), controller.updateUserPassword);
+	.put(authenticated, validator.body(validation.updateUserPassword.body), authController.updateUserPassword);
 
 module.exports = router;

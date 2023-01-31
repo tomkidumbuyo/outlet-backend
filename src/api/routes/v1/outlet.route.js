@@ -13,7 +13,7 @@ router.route('/attributes').get(authenticated, controller.getAttributes);
 // TODO: find out what this does
 router.route('/sync/:datetime').get(authenticated, controller.sync);
 
-router.route('/pagination/:limit/:offset?/:sort?').post(authenticated, controller.paggination);
+router.route('/pagination/:limit/:offset?/:sort?').get(authenticated, controller.paggination);
 
 // TODO: change name to outlet count
 router.route('/count').get(authenticated, controller.getOutletCount);

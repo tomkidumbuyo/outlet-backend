@@ -6,14 +6,14 @@ SALT_WORK_FACTOR = 10;
 const userSchema = new Schema({
 	email: { type: String, require: true },
 	user: { type: String, require: true },
-	first_name: { type: String },
-	last_name: { type: String },
+	firstName: { type: String },
+	lastName: { type: String },
 	country: { type: String },
 	city: { type: String },
 	twitter: { type: String },
 	about: { type: String },
 	password: { type: String, require: true },
-	date_of_birth: { type: Date },
+	dateOfBirth: { type: Date },
 	ethnicity: { type: String },
 	sex: { type: String },
 	citizenship: { type: String },
@@ -32,7 +32,7 @@ const userSchema = new Schema({
 		require: true,
 		enum: ['admin', 'distributionCenter', 'regionalSuperviser', 'aim', 'plant', 'temp', 'client'],
 	},
-	creation_dt: { type: Date, require: true, default: Date.now },
+	creationDate: { type: Date, require: true, default: Date.now },
 	isAdmin: { type: Boolean, require: true, default: false },
 	region: {
 		type: Schema.ObjectId,
@@ -71,5 +71,12 @@ userSchema.methods.isValid = function(candidatePassword, cb) {
 		cb(null, isMatch);
 	});
 };
+
+userSchema.set('toJSON', {
+	transform: function(doc, ret, opt) {
+		delete ret['password'];
+		return ret;
+	},
+});
 
 module.exports = mongoose.model('user', userSchema, 'users');

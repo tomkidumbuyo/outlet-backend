@@ -18,8 +18,8 @@ exports.createOutlet = async (req, res) => {
 	try {
 		data = await outletService.create(req.body, req.user);
 		res.json(data);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -30,8 +30,8 @@ exports.getClassifications = async (req, res) => {
 			outletClassification = [];
 		}
 		res.json(outletClassification);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -42,8 +42,8 @@ exports.getAttributes = async (req, res) => {
 			outletAttribute = [];
 		}
 		res.json(outletAttribute);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -53,8 +53,8 @@ exports.sync = async (req, res) => {
 		outlets = await outletModel.find({ created: null });
 		outlets = await outletModel.find({ $or: [{ created: { $gte: date } }, { edited: { $gte: date } }] });
 		res.json(outlets);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -78,15 +78,15 @@ exports.paggination = async (req, res) => {
 		}
 
 		res.json(outlets);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
 exports.getOutletCount = async (req, res) => {
-	outletModel.countDocuments({}, (err, count) => {
-		if (e) {
-			next(e);
+	outletModel.countDocuments({}, (error, count) => {
+		if (error) {
+			next(error);
 		}
 		res.json({ count: count });
 	});
@@ -97,8 +97,8 @@ exports.getOutletsByRegion = async (req, res) => {
 		districts = await districtModel.find({ region: { $in: req.body.regions } });
 		outlets = await outletModel.find({ district: { $in: districts.map((district) => district._id) } });
 		res.json(outlets);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -114,8 +114,8 @@ exports.getOutletById = async (req, res) => {
 			(outletClassification) => outletClassification.classification
 		);
 		res.json(outlet);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -123,8 +123,8 @@ exports.getOutletSales = async (req, res) => {
 	try {
 		sales = await saleModel.find({ outlet: req.params.id }).populate('project');
 		res.json(sales);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -146,8 +146,8 @@ exports.getOutletVisits = async (req, res) => {
 		}
 
 		res.json(result);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -155,8 +155,8 @@ exports.updateOutlet = async (req, res) => {
 	try {
 		data = await outletService.update(req.body, req.user);
 		res.json(data);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -165,8 +165,8 @@ exports.deleteOutlet = async (req, res) => {
 		outlet = await outletModel.findById(req.params.id);
 		await outlet.delete();
 		res.json({ status: 'success' });
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -200,8 +200,8 @@ exports.getAllOutlets = async (req, res) => {
 			}
 		}
 		res.json(outlets);
-	} catch (e) {
-		next(e);
+	} catch (error) {
+		next(error);
 	}
 };
 
