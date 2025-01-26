@@ -1,7 +1,5 @@
 const express = require('express');
-const router = express.Router();
 const saleModel = require('../models/sale.model');
-const auth = require('../utils/auth');
 const saleService = require('../services/sale.service');
 
 exports.createSale = async (req, res) => {

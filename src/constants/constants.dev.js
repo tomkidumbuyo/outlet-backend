@@ -1,5 +1,5 @@
 module.exports = {
 	logs: 'dev',
 	env: 'development',
-	port: '9090'
+	port: '9091'
 };

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const userLocationModel = require('../models/user-location.model');
 const geojson = require('../utils/geojson');
 

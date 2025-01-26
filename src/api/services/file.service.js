@@ -1,5 +1,5 @@
 const outletModel = require('../models/outlet.model');
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const fs = require('fs');
 const visitLibrary = require('../utils/visit');
 const s3 = require('../utils/s3');
@@ -7,7 +7,7 @@ const s3 = require('../utils/s3');
 module.exports.create = async function create(data, user) {
 	return new Promise(async (resolve, reject) => {
 		let outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });
@@ -49,7 +49,7 @@ module.exports.remove = async function remove(data, user) {
 	return new Promise(async (resolve, reject) => {
 		// PersonModel.find({ favouriteFoods: "sushi" })
 		let outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });

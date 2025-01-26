@@ -1,31 +1,34 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const outletAttributeSchema = new Schema({
+const outletAttributeSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
+	tempId: { type: String },
 
-    tempId: { type: String },
+	number: { type: Number },
+	string: { type: String },
+	bool: { type: Boolean },
 
-    number: { type: Number },
-    string: { type: String },
-    bool: { type: Boolean },
-    
-    user: {
-        type: Schema.ObjectId,
-        ref: 'user',
-        required: false
-    },
-    outlet: {
-      type: Schema.ObjectId,
-      ref: 'outlet',
-      required: false
-    },
-    attribute: {
-      type: Schema.ObjectId,
-      ref: 'classificationAttribute',
-      required: false
-    },
-    created: { type: Date, default: Date.now },
+	user: {
+		type: String,
+		ref: 'user',
+		required: false,
+	},
+	outlet: {
+		type: String,
+		ref: 'outlet',
+		required: false,
+	},
+	attribute: {
+		type: String,
+		ref: 'classificationAttribute',
+		required: false,
+	},
+	created: { type: Date, default: Date.now },
 });
 
-
-module.exports = mongoose.model('outletAttribute', outletAttributeSchema, 'outletAttributes');
+module.exports = dynamoose.model('outletAttribute', outletAttributeSchema, 'outletAttributes');

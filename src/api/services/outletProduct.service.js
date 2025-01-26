@@ -1,12 +1,12 @@
 const outletModel = require('../models/outlet.model');
 const visitLibrary = require('../utils/visit');
 const outletProductModel = require('../models/outlet-product.model');
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 
 module.exports.create = async function create(data, user) {
 	return new Promise(async (resolve, reject) => {
 		outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });
@@ -49,7 +49,7 @@ module.exports.create = async function create(data, user) {
 module.exports.update = async function update(data, user) {
 	return new Promise(async (resolve, reject) => {
 		outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });
@@ -81,7 +81,7 @@ module.exports.update = async function update(data, user) {
 module.exports.remove = async function remove(data, user) {
 	return new Promise(async (resolve, reject) => {
 		outletProduct = null;
-		if (mongoose.Types.ObjectId.isValid(data._id)) {
+		if (dynamoose.Types.ObjectId.isValid(data._id)) {
 			outletProduct = await outletModel.findById(data._id);
 		} else {
 			outletProduct = await outletModel.findOne({ tempId: data._id });

@@ -20,20 +20,30 @@ const error = require('../api/middleware/error');
  */
 const app = express();
 
-// mongoDB connection instance
-const mongoose = require('mongoose');
-const connectionString = process.env.MONGODB_URI_URI;
+const dynamoose = require('dynamoose');
+const AWS = require('aws-sdk');
 
-mongoose.connect(connectionString);
-const database = mongoose.connection;
-
-database.on('error', (error) => {
-	console.log(error);
+// DynamoDB connection instance
+const ddb = new dynamoose.aws.ddb.DynamoDB({
+	"credentials": {
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	},
+	region: process.env.AWS_REGION,
+});
+dynamoose.aws.ddb.set(ddb);
+dynamoose.Table.defaults.set({
+	create: true,
+	update: true,
+	waitForActive: {
+			enabled: true,
+			check: {
+					timeout: 180000, // 3 minutes
+					frequency: 5000, // Every 5 seconds
+			},
+	},
 });
 
-database.once('connected', () => {
-	console.log('Database Connected');
-});
 
 // TODO: Include CSRF middlewares here
 

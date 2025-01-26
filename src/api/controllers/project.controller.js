@@ -1,7 +1,5 @@
 const express = require('express');
-const router = express.Router();
-const auth = require('../utils/auth');
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const projectModel = require('../models/project.model');
 const productModel = require('../models/product.model');
 const saleModel = require('../models/sale.model');
@@ -122,13 +120,13 @@ exports.getProjectLocations = async (req, res) => {
 
 		let districts = (
 			await districtModel.find({
-				region: { $in: regions.map((region) => mongoose.Types.ObjectId(region._id)) },
+				region: { $in: regions.map((region) => dynamoose.Types.ObjectId(region._id)) },
 			})
 		).map((region) => region.toObject());
 
 		let wards = (
 			await wardModel.find({
-				district: { $in: districts.map((district) => mongoose.Types.ObjectId(district._id)) },
+				district: { $in: districts.map((district) => dynamoose.Types.ObjectId(district._id)) },
 			})
 		).map((region) => region.toObject());
 
@@ -155,7 +153,7 @@ exports.getProjectOutlets = async (req, res) => {
 		project = await projectModel.findById(req.params.id).populate('regions');
 		let outlets = await outletModel
 			.find({
-				region: { $in: project.regions.map((region) => mongoose.Types.ObjectId(region._id)) },
+				region: { $in: project.regions.map((region) => dynamoose.Types.ObjectId(region._id)) },
 			})
 			.sort('name')
 			.populate('region')
@@ -217,7 +215,7 @@ exports.getProjectGiveaways = async (req, res) => {
 	try {
 		let visits = await visitModel.find({ project: req.params.id });
 		let giveaways = await outletGiveawayModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('giveaway');
 		res.json(giveaways);
 	} catch (error) {
@@ -230,7 +228,7 @@ exports.getProjectPosm = async (req, res) => {
 	try {
 		let visits = await visitModel.find({ project: req.params.id });
 		let posms = await outletPosmModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('posm');
 		res.json(posms);
 	} catch (error) {
@@ -254,7 +252,7 @@ exports.getProjectSkus = async (req, res) => {
 	try {
 		let visits = await visitModel.find({ project: req.params.id });
 		let products = await outletSkuModel.find({
-			visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) },
+			visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) },
 		});
 		res.json(products);
 	} catch (error) {

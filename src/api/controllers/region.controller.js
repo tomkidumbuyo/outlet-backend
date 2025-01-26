@@ -1,7 +1,5 @@
 const express = require('express');
-const router = express.Router();
-const regionModel = require('../models/region.model');
-const auth = require('../utils/auth');
+const regionModel = require('../models/region.model');;
 
 exports.creteRegion = async (req, res) => {
 	try {

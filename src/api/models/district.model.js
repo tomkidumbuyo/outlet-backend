@@ -1,14 +1,18 @@
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const districtSchema = new Schema({
-    code: { type: String, require: true },
-    name: { type: String, require: true },
-    region: {
-      type: Schema.ObjectId,
-      ref: 'region',
-    },
+const districtSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
+	code: { type: String, require: true },
+	name: { type: String, require: true },
+	region: {
+		type: String,
+		ref: 'region',
+	},
 });
 
-module.exports = mongoose.model('district', districtSchema, 'districts');
+module.exports = dynamoose.model('district', districtSchema, 'districts');

@@ -1,6 +1,4 @@
 const express = require('express');
-const router = express.Router();
-const auth = require('../utils/auth');
 const outletSkuService = require('../services/outletSku.service');
 
 exports.createOutletSku = async (req, res) => {

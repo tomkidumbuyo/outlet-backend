@@ -1,6 +1,4 @@
 const express = require('express');
-const router = express.Router();
-const auth = require('../utils/auth');
 const posmModel = require('../models/posm.model');
 
 exports.createPosm = async (req, res) => {

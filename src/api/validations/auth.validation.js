@@ -7,6 +7,8 @@ module.exports = {
 			verifyPassword: Joi.string().required(),
 			password: Joi.string().required(),
 			userAttributes: {
+				isAdmin: Joi.boolean().optional(),
+				type: Joi.string().optional(), //TODO: Add enum
 				firstName: Joi.string().optional(),
 				lastName: Joi.string().optional(),
 				country: Joi.string().optional(),

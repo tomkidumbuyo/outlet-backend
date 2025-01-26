@@ -1,18 +1,23 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const saleItemSchema = new Schema({
-    sku : {
-        type: Schema.ObjectId,
-        ref: 'sku',
-    },
-    tempId: {type: String},
-    sale : {
-        type: Schema.ObjectId,
-        ref: 'sku',
-    },
-    amount : { type: Number },
-    priceEach : { type: Number }
+const saleItemSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
+	sku: {
+		type: String,
+		ref: 'sku',
+	},
+	tempId: { type: String },
+	sale: {
+		type: String,
+		ref: 'sku',
+	},
+	amount: { type: Number },
+	priceEach: { type: Number },
 });
 
-module.exports = mongoose.model('saleItem', saleItemSchema, 'saleItems');
+module.exports = dynamoose.model('saleItem', saleItemSchema, { create: true });

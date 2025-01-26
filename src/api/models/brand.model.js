@@ -1,23 +1,32 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const brandSchema = new Schema({
-  name: { type: String, require: true },
-  logo: { type: String },
-  client: {
-    type: Schema.ObjectId,
-    ref: 'client',
-  },
-  manager: {
-    name: { type: String, require: true },
-    phones: [{
-      type: Schema.ObjectId,
-      ref: 'phone',
-    }],
-    email: { type: String, require: true },
-  },
-  date: { type: Date, require: true, default: Date.now() },
+const brandSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
+	name: { type: String, required: true },
+	logo: { type: String },
+	client: {
+		type: String,
+		ref: 'client',
+	},
+	manager: {
+		type: Object, // Define manager as an object
+		schema: {
+			name: { type: String, required: true },
+			phones: [
+				{
+					type: String,
+					ref: 'phone',
+				},
+			],
+			email: { type: String, required: true },
+		},
+	},
+	date: { type: Date, required: true, default: Date.now() },
 });
 
-
-module.exports = mongoose.model('brand', brandSchema, 'brands');
+module.exports = dynamoose.model('brand', brandSchema, 'brands');

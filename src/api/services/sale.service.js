@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const saleModel = require('../models/sale.model');
 const outletModel = require('../models/outlet.model');
 const saleItemModel = require('../models/sale-item.model');
@@ -8,14 +8,14 @@ const skuModel = require('../models/sku.model');
 module.exports.create = async function create(data, user) {
 	return new Promise(async (resolve, reject) => {
 		sale = null;
-		if (mongoose.Types.ObjectId.isValid(data._id)) {
+		if (dynamoose.Types.ObjectId.isValid(data._id)) {
 			sale = await saleModel.findById(data._id);
 		} else {
 			sale = await saleModel.findOne({ tempId: data._id });
 		}
 
 		outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });
@@ -77,14 +77,14 @@ module.exports.create = async function create(data, user) {
 module.exports.update = async function update(data, user) {
 	return new Promise(async (resolve, reject) => {
 		sale = null;
-		if (mongoose.Types.ObjectId.isValid(data._id)) {
+		if (dynamoose.Types.ObjectId.isValid(data._id)) {
 			sale = await saleModel.findById(data._id);
 		} else {
 			sale = await saleModel.findOne({ tempId: data._id });
 		}
 
 		outlet = null;
-		if (mongoose.Types.ObjectId.isValid(data.outlet)) {
+		if (dynamoose.Types.ObjectId.isValid(data.outlet)) {
 			outlet = await outletModel.findById(data.outlet);
 		} else {
 			outlet = await outletModel.findOne({ tempId: data.outlet });
@@ -133,7 +133,7 @@ module.exports.update = async function update(data, user) {
 module.exports.remove = async function remove(data, user) {
 	return new Promise(async (resolve, reject) => {
 		sale = null;
-		if (mongoose.Types.ObjectId.isValid(data._id)) {
+		if (dynamoose.Types.ObjectId.isValid(data._id)) {
 			sale = await saleModel.findById(data._id);
 		} else {
 			sale = await saleModel.findOne({ tempId: data._id });

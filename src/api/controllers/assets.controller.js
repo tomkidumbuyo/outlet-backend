@@ -34,13 +34,15 @@ exports.getGeoLocation = (req, res, next) => {
 };
 
 exports.getAdminExists = async (req, res, next) => {
+	
 	try {
-		const admin = await userModel.find({
-			type: 'admin',
-		});
-		res.json(admin);
+		const result = await userModel.scan('type').eq('admin').exec();
+		const result2 = await userModel.scan().exec();
+		const admins = result && result.items ? result.items : [];
+		res.json({ status: true, data: admins });
 	} catch (error) {
-		res.json({ status: false });
+		console.log(error);
+		res.json({ status: false, error: error });
 	}
 };
 

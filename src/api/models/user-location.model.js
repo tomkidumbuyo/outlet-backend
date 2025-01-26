@@ -1,30 +1,35 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const userLocationSchema = new Schema({
+const userLocationSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
 	lat: { type: String, require: true },
 	lng: { type: String, require: true },
 	time: { type: Date, require: true },
 	toTime: { type: Date, require: true },
 	region: {
-		type: Schema.ObjectId,
+		type: String,
 		ref: 'region',
 		required: false,
 	},
 	district: {
-		type: Schema.ObjectId,
+		type: String,
 		ref: 'district',
 		required: false,
 	},
 	ward: {
-		type: Schema.ObjectId,
+		type: String,
 		ref: 'ward',
 		required: false,
 	},
 	user: {
-		type: Schema.ObjectId,
+		type: String,
 		ref: 'user',
 	},
 });
 
-module.exports = mongoose.model('userLocation', userLocationSchema, 'userLocations');
+module.exports = dynamoose.model('userLocation', userLocationSchema, { create: true });

@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const router = express.Router();
 const auth = require('../utils/auth');
 const visit = require('../utils/visit');
@@ -33,7 +33,7 @@ exports.getUserOutlets = async (req, res) => {
 		project = await projectModel.findById(req.user.project).populate('regions');
 
 		// loc = await geojson.getLocation(req.body.lat, req.body.lng);
-		// outlets = await outletModel.find({'region': { $in: project.regions.map(region => mongoose.Types.ObjectId(region._id)) }})
+		// outlets = await outletModel.find({'region': { $in: project.regions.map(region => dynamoose.Types.ObjectId(region._id)) }})
 
 		outlets = await outletModel
 			.find({
@@ -117,7 +117,7 @@ exports.getUserProducts = async (req, res) => {
 			productIDs = productIDs.concat(p.competetiveProducts);
 		}
 
-		// productIDs = project.products.filter(product => mongoose.Types.ObjectId(product.product));
+		// productIDs = project.products.filter(product => dynamoose.Types.ObjectId(product.product));
 		products = await productModel
 			.find({ _id: { $in: productIDs } })
 			.populate({ path: 'skus', model: 'sku' })

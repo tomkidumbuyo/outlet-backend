@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const dynamoose = require('dynamoose');
 const tempModel = require('../models/temp.model');
 const outletModel = require('../models/outlet.model');
 const visitModel = require('../models/visit.model');
@@ -39,7 +39,7 @@ exports.getTempAllOutlets = async (req, res) => {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
 		outlets = await outletModel.find({
-			$or: [{ temp: temp }, { _id: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit.outlet)) } }],
+			$or: [{ temp: temp }, { _id: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit.outlet)) } }],
 		});
 
 		res.json(outlets);
@@ -105,7 +105,7 @@ exports.getTempSales = async (req, res) => {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
 		let sales = await saleModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('items');
 		res.json(sales);
 	} catch (e) {
@@ -118,7 +118,7 @@ exports.getTempGiveaway = async (req, res) => {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
 		let giveaways = await outletGiveawayModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('giveaway');
 		res.json(giveaways);
 	} catch (e) {
@@ -132,7 +132,7 @@ exports.getTempPosms = async (req, res) => {
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
 
 		let posms = await outletPosmModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('posm');
 		res.json(posms);
 	} catch (e) {
@@ -145,7 +145,7 @@ exports.getTempProducts = async (req, res) => {
 		temp = await tempModel.findById(req.params.id);
 		visits = await visitModel.find({ user: temp.user, project: temp.project });
 		let products = await outletSkuModel
-			.find({ visit: { $in: visits.map((visit) => mongoose.Types.ObjectId(visit._id)) } })
+			.find({ visit: { $in: visits.map((visit) => dynamoose.Types.ObjectId(visit._id)) } })
 			.populate('product');
 		res.json(products);
 	} catch (e) {

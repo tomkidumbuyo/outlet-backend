@@ -1,82 +1,81 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
+const Project = require('../models/project.model');
+const Client = require('../models/client.model');
+const Region = require('../models/region.model');
+const DistributionCenter = require('../models/distribution-center.model');
+
 SALT_WORK_FACTOR = 10;
 
-const userSchema = new Schema({
-	email: { type: String, require: true },
-	user: { type: String, require: true },
-	firstName: { type: String },
-	lastName: { type: String },
-	country: { type: String },
-	city: { type: String },
-	twitter: { type: String },
-	about: { type: String },
-	password: { type: String, require: true },
-	dateOfBirth: { type: Date },
-	ethnicity: { type: String },
-	sex: { type: String },
-	citizenship: { type: String },
-	phone: { type: String },
-	address: { type: String },
-	project: {
-		type: Schema.ObjectId,
-		ref: 'project',
+const userSchema = new dynamoose.Schema(
+	{
+		_id: {
+			type: String,
+			hashKey: true,
+			default: uuidv4,
+		},
+		email: { type: String, require: true, index: { global: true } },
+		firstName: { type: String },
+		lastName: { type: String },
+		password: { 
+			type: String, 
+			require: true,
+			set: async (password) => {
+				if (!password.startsWith('$2b$')) {
+					const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+					password = await bcrypt.hash(password, salt);
+					return password;
+				}
+				get: null
+			},
+		},
+		dateOfBirth: { type: Date },
+		sex: { type: String, enum: ['male', 'female'] },
+		phone: { type: String },
+		address: { type: String },
+		project: {
+			type: Project,
+		},
+		client: {
+			type: Client,
+		},
+		type: {
+			type: String,
+			require: true,
+			enum: ['admin', 'distributionCenter', 'regionalSuperviser', 'aim', 'plant', 'temp', 'client'],
+		},
+		isAdmin: { type: Boolean, require: true, default: false },
+		region: {
+			type: Region,
+		},
+		dc: {
+			type: DistributionCenter,
+		},
 	},
-	client: {
-		type: Schema.ObjectId,
-		ref: 'client',
+	{
+		timestamps: true,
+		hooks: {
+			before: {
+
+			},
+		},
+	}
+);
+
+userSchema.methods = {
+	isValid: async function(candidatePassword) {
+		return bcrypt.compare(candidatePassword, this.password);
 	},
-	type: {
-		type: String,
-		require: true,
-		enum: ['admin', 'distributionCenter', 'regionalSuperviser', 'aim', 'plant', 'temp', 'client'],
-	},
-	creationDate: { type: Date, require: true, default: Date.now },
-	isAdmin: { type: Boolean, require: true, default: false },
-	region: {
-		type: Schema.ObjectId,
-		ref: 'region',
-	},
-	dc: {
-		type: Schema.ObjectId,
-		ref: 'distributionCenter',
-	},
-});
-
-userSchema.pre('save', function(next) {
-	var user = this;
-
-	// only hash the password if it has been modified (or is new)
-	if (!user.isModified('password')) return next();
-
-	// generate a salt
-	bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-		if (err) return next(err);
-
-		// hash the password using our new salt
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			if (err) return next(err);
-
-			// override the cleartext password with the hashed one
-			user.password = hash;
-			next();
-		});
-	});
-});
-
-userSchema.methods.isValid = function(candidatePassword, cb) {
-	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-		if (err) return cb(err);
-		cb(null, isMatch);
-	});
 };
 
-userSchema.set('toJSON', {
-	transform: function(doc, ret, opt) {
-		delete ret['password'];
-		return ret;
+userSchema.options = {
+	toJSON: {
+		transform: function(doc, ret) {
+			delete ret.password; // Remove password from the returned object
+			return ret;
+		},
 	},
-});
+};
 
-module.exports = mongoose.model('user', userSchema, 'users');
+module.exports = dynamoose.model('user', userSchema);

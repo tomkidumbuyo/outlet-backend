@@ -42,6 +42,14 @@ class ResponseService {
 	static errorLoginIn(error) {
 		return { message: 'ERROR_LOGIN_IN', errors: error };
 	}
+
+	static errorRegisteringUser(error)  {
+		return { message: 'ERROR_REGISTERING_USER', errors: error };
+	}
+
+	static errorFindingUser(error) {
+		return { message: 'ERROR_FINDING_USER', errors: error };
+	}
 }
 
 module.exports = ResponseService;

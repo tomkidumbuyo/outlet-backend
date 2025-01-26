@@ -9,10 +9,11 @@ exports.register = async (req, res, next) => {
 		const data = await auth.register(email, password, verifyPassword);
 		if (req.body.userAttributes) {
 			try {
-				await userModel.findOneAndUpdate({ _id: data.user._id }, { $set: req.body.userAttributes });
-				data.user = await userModel.findById(data.user._id);
-				res.json(data);
+				const i = await userModel.update({ _id: data._id }, req.body.userAttributes);
+				data.user = await userModel.get(data._id);
+				res.json(data.user);
 			} catch (error) {
+				console.log(error);
 				next(error);
 			}
 		} else {

@@ -1,17 +1,21 @@
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const outletClassificationSchema = new Schema({
-    tempId: { type: String },
-    outlet: {
-      type: Schema.ObjectId,
-      ref: 'outlet',
-    },
-    classification: {
-      type: Schema.ObjectId,
-      ref: 'classification',
-    },
+const outletClassificationSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
+	tempId: { type: String },
+	outlet: {
+		type: String,
+		ref: 'outlet',
+	},
+	classification: {
+		type: String,
+		ref: 'classification',
+	},
 });
 
-module.exports = mongoose.model('outletClassification', outletClassificationSchema, 'outletClassifications');
+module.exports = dynamoose.model('outletClassification', outletClassificationSchema, 'outletClassifications');

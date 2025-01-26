@@ -1,7 +1,12 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const dynamoose = require('dynamoose');
+const { v4: uuidv4 } = require('uuid');
 
-const clientSchema = new Schema({
+const clientSchema = new dynamoose.Schema({
+	_id: {
+		type: String,
+		hashKey: true,
+		default: uuidv4,
+	},
 	name: { type: String, require: true },
 	classification: {
 		type: String,
@@ -19,7 +24,7 @@ const clientSchema = new Schema({
 	logo: { type: String, require: true },
 	phones: [
 		{
-			type: Schema.ObjectId,
+			type: String,
 			ref: 'phone',
 		},
 	],
@@ -29,4 +34,4 @@ const clientSchema = new Schema({
 	date: { type: Date, require: true, default: Date.now() },
 });
 
-module.exports = mongoose.model('client', clientSchema, 'clients');
+module.exports = dynamoose.model('client', clientSchema, 'clients');

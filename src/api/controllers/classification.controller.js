@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const randomColor = require('randomcolor');
 const classificationModel = require('../models/classification.model');
 const classificationAttributeModel = require('../models/classification-attribute.model');

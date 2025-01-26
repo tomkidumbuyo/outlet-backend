@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const outletModel = require('../models/outlet.model');
 const saleModel = require('../models/sale.model');
 const districtModel = require('../models/district.model');
